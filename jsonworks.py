@@ -1,6 +1,6 @@
 import json
 import io
-import deneme1
+import Main
 
 
 text = io.open('talks' + '.json').read()

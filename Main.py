@@ -1,4 +1,4 @@
-
+import glob
 from collections import Counter
 import string
 # import io
@@ -11,6 +11,12 @@ import json
 import io
 
 
+
+BASE_PATH = "/path/to/metu-cogs-520-TED-talks-emotions"
+import FileOperations
+import Utils
+
+
 def tokenize(line):
   #remove punctuation
   line = ''.join(ch for ch in line if ch not in string.punctuation)
@@ -18,29 +24,39 @@ def tokenize(line):
   words = line.split()
   return words
 
+def pretty(d, indent=0):
+   for key, value in d.items():
+      print('\t' * indent + str(key))
+      if isinstance(value, dict):
+         pretty(value, indent+1)
+      else:
+         print('\t' * (indent+1) + str(round(value, 4)))
+
+
+talks = FileOperations.read_and_store_input(BASE_PATH + "\\annotated\\")
+emotions = Utils.createEmotionVectors(BASE_PATH + "\\emotions\\")
+
+similarities = {}
+for talk in talks:
+    similarities[talk] = {}
+    for prop in talks[talk]:
+        similarities[talk][prop] = {}
+        for emotion in emotions:
+            similarities[talk][prop][emotion] = 0
+            similarities[talk][prop][emotion] = Utils.findSimilarity(talks[talk][prop], emotions[emotion])
+            #print(Utils.findSimilarity(talks[talk][prop], emotions[emotion]))
+
+
+#pretty(similarities, 1)
+for s in similarities:
+    print(s + " : " + str(similarities[s]))
 
 
 
 
-def findSimilarity(talk1, talk2):
-    # count word occurrences
-    a_vals = Counter(talk1)
-    b_vals = Counter(talk2)
-
-    # convert to word-vectors
-    words  = list(set(a_vals.keys()) | set(b_vals.keys()))
-    a_vect = [a_vals.get(word, 0) for word in words]        
-    b_vect = [b_vals.get(word, 0) for word in words]        
-
-    # find cosine
-    len_a  = sum(av*av for av in a_vect) ** 0.5             
-    len_b  = sum(bv*bv for bv in b_vect) ** 0.5             
-    dot    = sum(av*bv for av,bv in zip(a_vect, b_vect))    
-    cosine = dot / (len_a * len_b)                          
-    return cosine
 
 
-
+"""
 lines = []
 keys = io.open('keywords.txt').readlines()
 for line in keys:
@@ -85,17 +101,7 @@ for item in json_text['talks']:
     talks.append(item['content'].split(' '))
 
 
-duygular = ['mutluluk', 'kizginlik', 'igrenme', 'korku', 'saskinlik', 'uzuntu']
-duygu_vectorleri = []
-for duygu in duygular:
-    text = io.open(duygu + '.json').read()
-    json_text = json.loads(text)
-    temp_list = []
-    for item in json_text['Term']:
-        #print(item['name'])
-        temp_list.append(item['name'])
-    duygu_vectorleri.append(temp_list)
-    temp_list = []
+
 
 
 similarities = []
@@ -107,3 +113,4 @@ for talk in talks:
     similarities.append(temp_similarity)
     print(temp_similarity)
     temp_similarity = []
+"""""
