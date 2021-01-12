@@ -39,6 +39,22 @@ def findSimilarity(talk1, talk2):
     return cosine
 
 
+def findBestEmotionForProps(similarities, talks, emotions):
+    BestEmotions = {}
+    for talk in talks:
+        for prop in talks[talk]:
+            if prop not in BestEmotions:
+                BestEmotions[prop] = {}
+            for emotion in emotions:
+                if emotion not in BestEmotions[prop]:
+                    BestEmotions[prop][emotion] = 0
+                BestEmotions[prop][emotion] += similarities[talk][prop][emotion]
+
+    for prop in BestEmotions:
+        for emotion in BestEmotions[prop]:
+            BestEmotions[prop][emotion] /= len(talks)
+    return BestEmotions
+
 #result = createEmotionVectors(
 #    "C:\\Users\\Enes Recep ÇINAR\\PycharmProjects\\metu-cogs-520-TED-talks-emotions\\emotions\\")
 #for r in result:

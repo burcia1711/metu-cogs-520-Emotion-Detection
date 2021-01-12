@@ -12,7 +12,7 @@ import io
 
 
 
-BASE_PATH = "/path/to/metu-cogs-520-TED-talks-emotions"
+BASE_PATH = "C:\\Users\\Enes Recep ÇINAR\\PycharmProjects\\metu-cogs-520-TED-talks-emotions\\"
 import FileOperations
 import Utils
 
@@ -46,6 +46,7 @@ for talk in talks:
             similarities[talk][prop][emotion] = Utils.findSimilarity(talks[talk][prop], emotions[emotion])
             #print(Utils.findSimilarity(talks[talk][prop], emotions[emotion]))
 
+pretty(Utils.findBestEmotionForProps(similarities, talks, emotions), 0)
 
 #pretty(similarities, 1)
 for s in similarities:
