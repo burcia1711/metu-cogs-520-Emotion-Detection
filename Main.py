@@ -12,7 +12,8 @@ import io
 
 
 
-BASE_PATH = "path\\to\\metu-cogs-520-TED-talks-emotions\\"
+
+BASE_PATH = "C:\\Users\\Enes Recep ÇINAR\PycharmProjects\\metu-cogs-520-TED-talks-emotions\\"
 import FileOperations
 import Utils
 
@@ -38,19 +39,22 @@ emotions = Utils.createEmotionVectors(BASE_PATH + "\\emotions\\")
 
 similarities = {}
 for talk in talks:
+    print(talks[talk])
     similarities[talk] = {}
     for prop in talks[talk]:
         similarities[talk][prop] = {}
         for emotion in emotions:
+            #(emotions[emotion])
             similarities[talk][prop][emotion] = 0
             similarities[talk][prop][emotion] = Utils.findSimilarity(talks[talk][prop], emotions[emotion])
             #print(Utils.findSimilarity(talks[talk][prop], emotions[emotion]))
 
+pretty(similarities, 1)
 pretty(Utils.findBestEmotionForProps(similarities, talks, emotions), 0)
 
-#pretty(similarities, 1)
-for s in similarities:
-    print(s + " : " + str(similarities[s]))
+
+#for s in similarities:
+#    print(s + " : " + str(similarities[s]))
 
 
 

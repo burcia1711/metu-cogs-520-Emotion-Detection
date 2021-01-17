@@ -1,6 +1,7 @@
 import io
 import json
 from collections import Counter
+import zemberek
 
 
 def createEmotionVectors(folder):
@@ -19,6 +20,15 @@ def createEmotionVectors(folder):
 
 
 def findSimilarity(talk1, talk2):
+
+    for n, i in enumerate(talk1):
+            talk1[n] = zemberek.getRoot(talk1[n]) 
+
+    for m, j in enumerate(talk2):
+            talk2[m] = zemberek.getRoot(talk2[m]) 
+    #s += (t + " ->" + zemberek.getRoot(t) + "   ||||  ")
+   
+    #print(s)
     # count word occurrences
     a_vals = Counter(talk1)
     b_vals = Counter(talk2)
